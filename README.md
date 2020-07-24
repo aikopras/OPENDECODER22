@@ -1,5 +1,5 @@
 # OPENDECODER22
-Switch / Relays decoder for the DCC (Digital Command Control) with RS-Bus feedback.
+Switch / Relays decoder for the DCC (Digital Command Control) system with RS-Bus feedback.
 Compared to other switch decoder projects, this decoder has the following unique features:
 * Supports feedback of the actual switch position via the RS-Bus; manual changes of the position of a switch will thus be detected. For details on how this works, see the description on the [OpenDecoder website](https://www.opendcc.de/elektronik/opendecoder/opendecoder_sw_rm_e.html)
 * Has an extensive set of configurable Configuration Variables (CVs). These variables can be modified from a MAC computer using a dedicated program (only available for MAC), via PoM (Programming on the Main) as well as from a programming track. For details of the switch decoder see [cv_data_switch.h](src/cv_data_switch.h), for the relays decoder see [cv_data_relays4.h](src/cv_data_relays4.h).
