@@ -10,7 +10,7 @@ The decoder can operate in two possible modes:
 The file [global.h](src/global.h) defines which DECODER_TYPE we have, thus how the software should behave.
 
 The software is written in C and runs on ATMEGA16A and similar processors (32A, 164A, 324A, 644P). 
-It is an extension of the [Opendecoder](https://www.opendcc.de/index_e.html) project, and written in "pre-Arduino times". 
+It is an extension of the [Opendecoder](https://www.opendcc.de/index_e.html) project, and written in "pre-Arduino times". Therefore compilation is based on a traditional [makefile](src/Makefile), and assumes availability of gcc, [avrdude](https://www.nongnu.org/avrdude/) as well as a USBasp programmer.
 
 A description of this decoder and related decoders can be found on [https://sites.google.com/site/dcctrains](https://sites.google.com/site/dcctrains).
 The hardware and schematics can be downloaded from my EasyEda homepage; different PCBs are available:
