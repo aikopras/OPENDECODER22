@@ -30,6 +30,7 @@
 //                    2ms and must be checked by the host,
 //                    dcc_receiver makes only the physical layer.
 //
+#pragma once
 
 
 #define MAX_DCC_SIZE  6

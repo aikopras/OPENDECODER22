@@ -33,9 +33,8 @@
 //            4. Useful inline routines (delay, Semaphor-operations)
 //
 //========================================================================
-//
-#ifndef _CONFIG_H_
-#define _CONFIG_H_
+#pragma once
+
 
 //========================================================================
 // 1. Project Definitions
@@ -47,6 +46,8 @@
 
 // Definition of target hardware:
 //   
+#define TARGET_HARDWARE OPENDECODER22
+
 #define OPENDECODER22 0x22
 //  OPENDECODER22: this board has:
 //                 - ATmega8535, 16A, 32A, 164, 324 or 644 @ 11059200 Hz 
@@ -212,6 +213,3 @@ _restart(void)
        "icall" "\n\t"
      );
 }
-
-
-#endif   // _config_h_

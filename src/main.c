@@ -139,10 +139,10 @@ void DoProgramming(void) {
             if (RecDecAddr <= 511) {
               // Step 1: Set the Decoder Address
               // The valid range for CV1 is 0..63
-              // The valid range for CV9 is 0..3  (or 128, if the decoder has not been initialised)
+              // The valid range for CV9 is 0..7  (or 128, if the decoder has not been initialised)
               // The range of the received decoder address (RecDecAddr) is 0..255 (LENZ) / 511 (NMRA)
-              my_cv1 = (RecDecAddr & 0b00111111);
-              my_cv9 = ((RecDecAddr >> 6) & 0b00000111);
+              my_cv1 = ((RecDecAddr + 1) & 0b00111111);
+              my_cv9 = (((RecDecAddr + 1) >> 6) & 0b00000111);
               my_eeprom_write_byte(&CV.myAddrL, my_cv1);     
               my_eeprom_write_byte(&CV.myAddrH, my_cv9);
               // Step 2: Set the RS-bus address if the decoder type supports feedback (TYPE_SWITCH ...)
@@ -185,18 +185,20 @@ void init_global(void)
   MyType = my_eeprom_read_byte(&CV.DecType);
   // Step 3: Determine the decoder address, based on CV1 and CV9.
   // On the web there is some confusion regarding the exact relationship between the
-  // decoder address within the DCC decoder hardware and CV1 and CV9. The convention used by 
-  // my decoders is: My_Dec_Addr = CV1 + (CV9*64). 
-  // Note that this implies that the minimum value for CV1 should be 0 (and not 1).
+  // decoder address within the DCC decoder hardware and CV1 and CV9.
+  // The convention used by my decoders before version 0x10 (spetember 2020) was:
+  // -  My_Dec_Addr = (CV9*64) + CV1
+  // The convention used by my current decoders is:
+  // -  My_Dec_Addr = (CV9*64) + CV1 - 1
+  // The minimum value for CV1 is 0, but if CV9 is 0 as well then CV1 should start from 1.
   // Thus we have the following:
   // The valid range of CV1 is 0..63
-  // The valid range of CV9 is 0..3  (or 128, if the decoder has not been initialised)
+  // The valid range of CV9 is 0..7  (or 128, if the decoder has not been initialised)
   unsigned char cv1 = my_eeprom_read_byte(&CV.myAddrL);
   unsigned char cv9 = my_eeprom_read_byte(&CV.myAddrH);
-  cv1 = cv1;
-  cv9 = cv9 & 0x07; 					// Select only the last three bits
-  if (MyConfig != 1) My_Dec_Addr = (cv9 << 6) + cv1;	// Basic Acc. Addressing
-  else My_Dec_Addr = (cv9 << 8) + cv1;			// Extended Acc. Addressing
+  cv9 = cv9 & 0x07;                     // Select only the last three bits
+  if (MyConfig != 1) My_Dec_Addr = (cv9 << 6) + cv1 - 1;    // Basic Acc. Addressing
+  else My_Dec_Addr = (cv9 << 8) + cv1 - 1;            // Extended Acc. Addressing
   // The valid range of My_Dec_Addr is 0..511 (0..255 if Xpressnet is used).
   // Make sure that My_Dec_Addr will be 0 if the decoder has not been initialised  
   if ((cv1 > 63)) My_Dec_Addr = INVALID_DEC_ADR;
@@ -225,7 +227,7 @@ void init_global(void)
 int main(void)
   {
     init_hardware();			// setup hardware ports
-    init_global();			// initialise the global variables
+    init_global();			    // initialise the global variables
     
     init_dcc_receiver();		// setup dcc receiver
     init_dcc_decode();
@@ -235,11 +237,19 @@ int main(void)
     if (MyType == TYPE_SWITCH) {init_switch_feedback();}
 
     // init_lcd();
-    // write_lcd_string("OpenDecoder");
-    // write_lcd_string2("Switch");
+    // write_lcd_int(My_Dec_Addr);
+    // write_lcd_int2(my_eeprom_read_byte(&CV.myAddrL));
 
-    
     sei();				// Global enable interrupts
+
+    // Check if the EEPROM has been initialised. In case the program is compiled 
+    // and flashed using "make flash", the EEPROM should have been initialised during flash. 
+    // However, the Arduino IDE does not flash the EPPROM during program upload. 
+    // In that case we need to initialise from here. 
+    if ((my_eeprom_read_byte(&CV.VID) != 0x0D) || (my_eeprom_read_byte(&CV.VID_2) != 0x0D)) {
+      ResetDecoder();                             // Copy all default values to EEPROM
+      _restart();                                 // really hard exit
+    }
 
     // check if the decoder has a valid Decoder address
     if (My_Dec_Addr == INVALID_DEC_ADR) flash_led_fast(5);

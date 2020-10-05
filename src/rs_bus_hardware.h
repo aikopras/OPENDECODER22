@@ -12,6 +12,8 @@
 // 	     2010-11-10 ap V0.2 RS-bus defines have been moved to here (made global)
 //
 //************************************************************************************************
+#pragma once
+
 // The following #define may be changed: the kind of RS-bus module
 #define RS_BUS_TYPE     0       // 0: switch decoder with feedback / 1: feedback decoder
 

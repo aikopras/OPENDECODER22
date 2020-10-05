@@ -36,6 +36,7 @@
 //            cv_data_xxxxx.h will contain the actual data.
 //
 //========================================================================
+#pragma once
 
 typedef struct
   {

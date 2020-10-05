@@ -3,6 +3,8 @@
  Author:    Aiko Pras
        
 *****************************************************************************/
+#pragma once
+
 void init_lcd(void);
 
 void write_lcd_char(unsigned char value);

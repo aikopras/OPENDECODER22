@@ -11,6 +11,7 @@
 // 	      2013-03-25 V0.5 ap: comletely modified structure
 //
 //*****************************************************************************************************
+#pragma once
 
 void init_dcc_decode(void);
 void analyze_message(t_message *new);       // Sets the global CmdType variable plus possible others 
