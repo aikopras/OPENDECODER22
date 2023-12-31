@@ -10,7 +10,7 @@
 // 
 //------------------------------------------------------------------------
 //
-// file:      cv_data_switch.h
+// file:      cv_data_switch.h   -> Note that this is an include file, and not a normal header file
 // author:    Wolfgang Kufer / Aiko Pras
 // history:   2007-08-03 V0.1 kw start
 //            2007-08-18 V0.2 kw default for myADDR high changed to 0x80
@@ -20,9 +20,18 @@
 //            2012-01-03 v0.4 ap New Cvs for GBM added.
 //            2013-03-12 v0.5 ap The ability is added to program the CVs on the main (PoM).
 //            2013-12-30 v0.6 ap File customized for switches.
-//            2014-12-24 V0.A ap SkipEven is changed into SkipUnEven
+//            2014-12-24 V0.7 ap SkipEven is changed into SkipUnEven
+//            2020-10-05 v0.8 ap Several changes such that software can now also be programmed
+//                               via the Arduino IDE. Software version updated to 0x10      
+//                               Note that the clause #ifndef _CV_DATA_... / #pragma should NOT be added,
+//                               since this is not a normal header (.h) file, but a piece of code that 
+//                               needs to be included multiple times!
+//                               It would be more logical to change the file extension to .ini, but
+//                               the Arduino IDE can only deal with .c, .cpp and .h files.
 //
 //-----------------------------------------------------------------------------
+// NOTE: Don't include an #pragma once clause!!
+//
 // data in EEPROM:
 // Note: the order of these data corresponds to physical CV-Address
 //       CV1 is coded at #00
@@ -35,7 +44,7 @@
    15,          // T_on_F2       4  R      Same dor relays 2
    15,          // T_on_F3       5  R      Same dor relays 3
    15,          // T_on_F4       6  R      Same dor relays 4
-   0x0A,        // version       7  R      Software version. Should be > 7
+   0x10,        // version       7  R      Software version. Should be > 7
    0x0D,        // VID           8  R/W    Vendor ID (0x0D = DIY Decoder
                                            // write value 0x0D = 13 to reset CVs to default values
    0x80,        // myAddrH       9  R/W    Accessory Address high (3 bits)
@@ -59,12 +68,12 @@
    0,           // Restart      25  R/W    To restart (as opposed to reset) the decoder: use after PoM write
    0,           // DccQuality   26  R/W    DCC Signal Quality
    0b00010000,  // DecType      27  R/W    Decoder Type
-						// bx00010000 - Switch decoder
-						// bx00010001 - Switch decoder with Emergency board
-						// bx00010100 - Servo decoder
-						// bx00100000 - Relais decoder for 4 relais
-						// bx00100001 - Relais decoder for 16 relais
-						// bx10000000 - Watchdog and safety decoder
+						// 0x00010000 - Switch decoder
+						// 0x00010001 - Switch decoder with Emergency board
+						// 0x00010100 - Servo decoder
+						// 0x00100000 - Relais decoder for 4 relais
+						// 0x00100001 - Relais decoder for 16 relais
+						// 0x10000000 - Watchdog and safety decoder
    0,           // BiDi         28  R      Bi-Directional Communication Config. Keep at 0.
                 // Config       29  R      similar to CV#29; for acc. decoders
       (1<<7)                                    // 1 = we are accessory
@@ -82,4 +91,3 @@
                                            // received (since this generates feedback, is needed by Railware)
                                            // If zero, will not activate coil / relays if it is already 
                                            // in the requested position
-

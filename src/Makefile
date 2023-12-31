@@ -21,6 +21,7 @@ XTAL = 11059200
 MCU = atmega16
 ## possible MCU values: atmega8535 atmega16 atmega32 atmega164a atmega324a atmega644p
 
+
 ## Other Flags
 TARGET = OpenDecoder2.elf
 CC = avr-gcc

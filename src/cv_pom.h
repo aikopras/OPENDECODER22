@@ -11,6 +11,7 @@
 //------------------------------------------------------------------------
 //
 // file:      cv_pom.h
+#pragma once
 
 void ResetDecoder(void);
 void cv_operation(unsigned char op_mode);

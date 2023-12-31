@@ -12,6 +12,8 @@
 //            2013-04-20 V0.2 Only send routines kept - derived from previolus rs_bus_port.h
 //
 //--------------------------------------------------------------------------------------
+#pragma once
+
 // Calling:
 // - format_and_send_RS_data_nibble(value) is called from ... 
 // - send_CV_value_via_RSbus (value) is called from cv_pom.c

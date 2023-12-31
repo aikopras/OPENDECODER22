@@ -12,6 +12,8 @@
 //            2011-02-06 V0.2 First complete production version
 //
 //*****************************************************************************************************
+#pragma once
+
 void init_switch_feedback(void);
 void send_switch_feedback(void);
 

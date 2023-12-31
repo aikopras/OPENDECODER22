@@ -1,5 +1,6 @@
 // this is only a wrapper to prevent inlining from gcc
 // this reduces code size dramatically!!
+#pragma once
 
 uint8_t my_eeprom_read_byte(const uint8_t *__p);
 

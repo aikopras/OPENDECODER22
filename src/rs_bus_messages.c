@@ -71,11 +71,9 @@ void format_and_send_RS_data_nibble(unsigned char value) {
 //************************************************************************************************
 void send_CV_value_via_RSbus(unsigned char value)
 { // Send the 8 bit value in two consecutive nibbles. Note that bit order should be changed.
+  // We will always use RSBus 128 for PoM feedback
   unsigned char nibble;
-  
   RS_Addr2Use = 128;
-  
-  
   // check if we may send data (thus the USART has completed transmission of the previous data)
   if (RS_data2send_flag == 0) 
   { // send first nibble (for the low order bits)
