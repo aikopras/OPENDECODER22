@@ -7,6 +7,7 @@
 // http://www.gnu.org/licenses/gpl.txt
 //
 // history:   2013-03-25 V0.1 Initial version
+//            2026-05-19 V0.2 Volatile added for RS_Addr2Use
 //
 //
 // Basic decoder structure:
@@ -73,7 +74,7 @@ unsigned int  My_Dec_Addr;	 // Can be used for switches and relays (depending on
 unsigned char My_RS_Addr;	 // Base RS-bus address of this feedback module
 				 // Derived from CV10
                                  // Range: 1..128 / 0 if not initialized
-unsigned char RS_Addr2Use;	 // RS-bus address used by RS bus hardware routines / over the RS-bus
+volatile unsigned char RS_Addr2Use;	 // RS-bus address used by RS bus hardware routines / over the RS-bus
 				 // This is the address seen by the command station (RS-bus receiver)
 				 // Is equal to, or 1 higher (in case of SkipUnEven) than My_RS_Addr
 unsigned int  My_Loco_Addr;	 // Decoder listens to loco address to facilitate PoM and F1..F4

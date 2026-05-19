@@ -25,7 +25,7 @@ MCU = atmega16
 ## Other Flags
 TARGET = OpenDecoder2.elf
 CC = avr-gcc
-PROGRAMMER = -c USBasp
+PROGRAMMER = -c usbasp
 AVRDUDE = avrdude $(PROGRAMMER) -p $(MCU)
 
 ## Options common to compile, link and assembly rules
@@ -56,11 +56,11 @@ HEX_EEPROM_FLAGS += --change-section-lma .eeprom=0 --no-change-warnings
 
 
 ## Objects that must be built in order to link
-OBJECTS = global.o lcd_ap.o lcd.o led.o rs_bus_hardware.o rs_bus_messages.o dcc_receiver.o cv_pom.o main.o timer1.o config.o dcc_decode.o switch.o switch_feedback.o myeeprom.o 
-## OBJECTS = rs_bus_hardware.o rs_bus_messages.o servo.o dcc_receiver.o main.o port_engine.o config.o dcc_decode.o keyboard.o myeeprom.o 
+OBJECTS = global.o lcd_ap.o lcd.o led.o rs_bus_hardware.o rs_bus_messages.o dcc_receiver.o cv_pom.o main.o timer1.o config.o dcc_decode.o switch.o switch_feedback.o myeeprom.o
+## OBJECTS = rs_bus_hardware.o rs_bus_messages.o servo.o dcc_receiver.o main.o port_engine.o config.o dcc_decode.o keyboard.o myeeprom.o
 
 ## Objects explicitly added by the user
-LINKONLYOBJECTS =  
+LINKONLYOBJECTS =
 
 ## Build
 all: $(TARGET) OpenDecoder2.hex OpenDecoder2.eep OpenDecoder2.lss size
@@ -105,7 +105,7 @@ switch.o: switch.c
 switch_feedback.o: switch_feedback.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c $<
 
-rs_bus_hardware.o: rs_bus_hardware.c 
+rs_bus_hardware.o: rs_bus_hardware.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c $<
 
 rs_bus_messages.o: rs_bus_messages.c
@@ -142,4 +142,3 @@ clean:
 
 flash:	all
 	$(AVRDUDE) -U flash:w:OpenDecoder2.hex:i -U eeprom:w:OpenDecoder2.eep:a
-
